@@ -1,0 +1,266 @@
+================================================================================
+                 HOSPITAL MANAGEMENT SYSTEM ALGORITHM
+================================================================================
+
+=>Step 1: Program Start
+1.1 Include header files (stdio.h, stdlib.h, string.h, conio.h, time.h)
+1.2 Define structures:
+    1.2.1 Date structure with day, month, year
+    1.2.2 Patient structure with id, name, age, gender, address, phone, disease, admitDate, dischargeDate, isAdmitted, billAmount
+    1.2.3 Doctor structure with id, name, specialization, phone, fee, available
+    1.2.4 Appointment structure with id, patientId, doctorId, date, time, status
+1.3 Declare global arrays:
+    1.3.1 patients[200], patientCount=0
+    1.3.2 doctors[50], doctorCount=0
+    1.3.3 appointments[500], appointmentCount=0
+1.4 Set auto-increment IDs: nextPatientId=1001, nextDoctorId=2001, nextAppointmentId=3001
+
+
+=>Step 2: Call loadDataFromFile()
+2.1 Open patients.dat in read binary mode
+2.2 If file exists, read patientCount, patients array, nextPatientId
+2.3 Close file
+2.4 Open doctors.dat in read binary mode
+2.5 If file exists, read doctorCount, doctors array, nextDoctorId
+2.6 Close file
+2.7 Open appointments.dat in read binary mode
+2.8 If file exists, read appointmentCount, appointments array, nextAppointmentId
+2.9 Close file
+
+
+=>Step 3: Call mainMenu()
+3.1 Declare integer variable 'choice'
+3.2 START DO-WHILE loop (choice != 10):
+    3.2.1 Clear screen
+    3.2.2 Display main menu:
+          "1. Add New Patient"
+          "2. View All Patients"
+          "3. Search Patient"
+          "4. Discharge Patient"
+          "5. Add New Doctor"
+          "6. View All Doctors"
+          "7. Book Appointment"
+          "8. View Appointments"
+          "9. Generate Bill"
+          "10. Exit"
+    3.2.3 Print "Enter your choice: "
+    3.2.4 Read integer and store in 'choice'
+    3.2.5 SWITCH based on choice:
+          CASE 1: Call addPatient()
+          CASE 2: Call viewAllPatients()
+          CASE 3: Call searchPatient()
+          CASE 4: Call dischargePatient()
+          CASE 5: Call addDoctor()
+          CASE 6: Call viewAllDoctors()
+          CASE 7: Call bookAppointment()
+          CASE 8: Call viewAppointments()
+          CASE 9: Call generateBill()
+          CASE 10: Print "Thank you for using Hospital Management System!"
+          DEFAULT: Print "Invalid choice!" and wait for key
+    3.2.6 Go back to step 3.2.1
+
+
+=>Step 4: addPatient() FUNCTION
+4.1 Clear screen
+4.2 Print "ADD NEW PATIENT" header
+4.3 Create newPatient variable
+4.4 Set newPatient.id = nextPatientId, then nextPatientId++
+4.5 Print "Patient ID: " and newPatient.id
+4.6 Ask and read Patient Name, Age, Gender, Address, Phone, Disease
+4.7 Call getCurrentDate() to set admitDate
+4.8 Set newPatient.isAdmitted = 1
+4.9 Set newPatient.billAmount = 0
+4.10 Add newPatient to patients array at patientCount position
+4.11 Increment patientCount by 1
+4.12 Call saveDataToFile()
+4.13 Print success message with Patient ID and Admit Date
+4.14 Wait for key and RETURN
+
+
+=>Step 5: viewAllPatients() FUNCTION
+5.1 Clear screen
+5.2 Print "ALL PATIENTS" header
+5.3 IF patientCount == 0 THEN:
+        Print "No patients found!"
+     ELSE:
+        Print table headers
+        FOR i = 0 to patientCount-1:
+            Print patients[i].id, name, age, gender, phone, status (ADMITTED/DISCHARGED)
+        Print total patients count
+5.4 Wait for key and RETURN
+
+
+=>Step 6: searchPatient() FUNCTION
+6.1 Clear screen
+6.2 Print "SEARCH PATIENT" header
+6.3 Ask choice: 1 for ID, 2 for Name
+6.4 IF choice == 1 THEN:
+        Ask for Patient ID
+        FOR i = 0 to patientCount-1:
+            IF patients[i].id == id THEN:
+                Print all patient details (ID, Name, Age, Gender, Address, Phone, Disease, Admit Date, Status, Bill Amount)
+                Set found=1 and break
+        IF not found THEN: Print "Patient not found!"
+     ELSE IF choice == 2 THEN:
+        Ask for Patient Name
+        Print table headers
+        FOR i = 0 to patientCount-1:
+            IF name found in patients[i].name THEN:
+                Print patients[i].id, name, age, phone, status
+                Set found=1
+        IF not found THEN: Print "No patient found with that name!"
+6.5 Wait for key and RETURN
+
+
+=>Step 7: addDoctor() FUNCTION
+7.1 Clear screen
+7.2 Print "ADD NEW DOCTOR" header
+7.3 Create newDoctor variable
+7.4 Set newDoctor.id = nextDoctorId, then nextDoctorId++
+7.5 Print "Doctor ID: " and newDoctor.id
+7.6 Ask and read Doctor Name, Specialization, Phone, Consultation Fee
+7.7 Set newDoctor.available = 1
+7.8 Add newDoctor to doctors array at doctorCount position
+7.9 Increment doctorCount by 1
+7.10 Call saveDataToFile()
+7.11 Print success message with Doctor ID
+7.12 Wait for key and RETURN
+
+
+=>Step 8: viewAllDoctors() FUNCTION
+8.1 Clear screen
+8.2 Print "ALL DOCTORS" header
+8.3 IF doctorCount == 0 THEN:
+        Print "No doctors found!"
+     ELSE:
+        Print table headers
+        FOR i = 0 to doctorCount-1:
+            Print doctors[i].id, name, specialization, fee, status (AVAILABLE/NOT AVAILABLE)
+        Print total doctors count
+8.4 Wait for key and RETURN
+
+
+=>Step 9: bookAppointment() FUNCTION
+9.1 Clear screen
+9.2 Print "BOOK APPOINTMENT" header
+9.3 Ask for Patient ID
+9.4 Search for patient in patients array
+9.5 IF patient not found THEN: Print error, wait for key, RETURN
+9.6 Display list of available doctors (available == 1)
+9.7 Ask for Doctor ID
+9.8 Search for available doctor in doctors array
+9.9 IF doctor not found or not available THEN: Print error, wait for key, RETURN
+9.10 Create newAppointment variable
+9.11 Set newAppointment.id = nextAppointmentId, then nextAppointmentId++
+9.12 Set newAppointment.patientId and newAppointment.doctorId
+9.13 Ask and read Appointment Date (DD MM YYYY) and Time (HH:MM)
+9.14 Set newAppointment.status = 1 (Scheduled)
+9.15 Add newAppointment to appointments array at appointmentCount position
+9.16 Increment appointmentCount by 1
+9.17 Call saveDataToFile()
+9.18 Print success message with Appointment ID, Doctor Name, Patient Name, Date, Time
+9.19 Wait for key and RETURN
+
+
+=>Step 10: viewAppointments() FUNCTION
+10.1 Clear screen
+10.2 Print "ALL APPOINTMENTS" header
+10.3 IF appointmentCount == 0 THEN:
+         Print "No appointments found!"
+     ELSE:
+         Print table headers
+         FOR i = 0 to appointmentCount-1:
+             Find patient name from patientId
+             Find doctor name from doctorId
+             Set status string based on status value (1=SCHEDULED, 2=COMPLETED, 3=CANCELLED)
+             Print Appointment ID, Patient Name, Doctor Name, Date, Time, Status
+         Print total appointments count
+10.4 Wait for key and RETURN
+
+
+=>Step 11: generateBill() FUNCTION
+11.1 Clear screen
+11.2 Print "GENERATE BILL" header
+11.3 Ask for Patient ID
+11.4 Search for patient in patients array
+11.5 IF patient not found THEN: Print error, wait for key, RETURN
+11.6 Print hospital bill header with Patient ID, Name, Age, Gender, Disease, Admit Date
+11.7 Set roomCharges = 500
+11.8 Set doctorFee = 500
+11.9 Set medicineCharges = 1000
+11.10 Set otherCharges = 200
+11.11 Calculate totalBill = roomCharges + doctorFee + medicineCharges + otherCharges
+11.12 Set patients[patientIndex].billAmount = totalBill
+11.13 Print room charges, doctor fee, medicine charges, other charges, and total bill
+11.14 Call saveDataToFile()
+11.15 Wait for key and RETURN
+
+
+=>Step 12: dischargePatient() FUNCTION
+12.1 Clear screen
+12.2 Print "DISCHARGE PATIENT" header
+12.3 Ask for Patient ID
+12.4 Search for patient in patients array
+12.5 IF patient not found THEN: Print error, wait for key, RETURN
+12.6 IF patient already discharged THEN: Print error, wait for key, RETURN
+12.7 Print Patient Name, Age, Disease
+12.8 Ask for confirmation (Y/N)
+12.9 IF user enters 'Y' or 'y' THEN:
+         Call getCurrentDate() to set dischargeDate
+         Set patient.isAdmitted = 0
+         Call generateBill() to generate final bill
+         Call saveDataToFile()
+         Print success message with Discharge Date
+     ELSE:
+         Print "Discharge cancelled."
+12.10 Wait for key and RETURN
+
+
+=>Step 13: getCurrentDate() FUNCTION
+13.1 Call time(NULL) to get current time
+13.2 Call localtime() to convert to tm structure
+13.3 Set date->day = tm_mday
+13.4 Set date->month = tm_mon + 1
+13.5 Set date->year = tm_year + 1900
+13.6 RETURN
+
+
+=>Step 14: saveDataToFile() FUNCTION
+14.1 Open patients.dat in write binary mode ("wb")
+14.2 IF file opened successfully THEN:
+         Write patientCount, patients array, nextPatientId
+         Close file
+14.3 Open doctors.dat in write binary mode ("wb")
+14.4 IF file opened successfully THEN:
+         Write doctorCount, doctors array, nextDoctorId
+         Close file
+14.5 Open appointments.dat in write binary mode ("wb")
+14.6 IF file opened successfully THEN:
+         Write appointmentCount, appointments array, nextAppointmentId
+         Close file
+14.7 RETURN
+
+
+=>Step 15: loadDataFromFile() FUNCTION
+15.1 Open patients.dat in read binary mode ("rb")
+15.2 IF file exists THEN:
+         Read patientCount, patients array, nextPatientId
+         Close file
+15.3 Open doctors.dat in read binary mode ("rb")
+15.4 IF file exists THEN:
+         Read doctorCount, doctors array, nextDoctorId
+         Close file
+15.5 Open appointments.dat in read binary mode ("rb")
+15.6 IF file exists THEN:
+         Read appointmentCount, appointments array, nextAppointmentId
+         Close file
+15.7 RETURN
+
+
+=>Step 16: Program End
+16.1 Main function returns 0
+16.2 Program terminates
+
+================================================================================
+                                END ALGORITHM
+================================================================================

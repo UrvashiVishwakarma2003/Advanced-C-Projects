@@ -1,0 +1,305 @@
+================================================================================
+                 LIBRARY MANAGEMENT SYSTEM ALGORITHM
+================================================================================
+
+=>Step 1: Program Start
+1.1 Include header files (stdio.h, stdlib.h, string.h, conio.h, time.h)
+1.2 Define structures:
+    1.2.1 Date structure with day, month, year
+    1.2.2 Book structure with id, title, author, publisher, quantity, available, issued
+    1.2.3 Member structure with id, name, phone, email, address, booksIssued
+    1.2.4 Transaction structure with id, bookId, memberId, issueDate, dueDate, returnDate, status, fine
+1.3 Declare global arrays:
+    1.3.1 books[200], bookCount=0
+    1.3.2 members[300], memberCount=0
+    1.3.3 transactions[1000], transactionCount=0
+1.4 Set auto-increment IDs: nextBookId=1001, nextMemberId=2001, nextTransactionId=3001
+
+
+=>Step 2: Call loadDataFromFile() to load existing data
+2.1 Open books.dat in read binary mode
+2.2 If file exists, read bookCount, books array, nextBookId
+2.3 Close file
+2.4 Open members.dat in read binary mode
+2.5 If file exists, read memberCount, members array, nextMemberId
+2.6 Close file
+2.7 Open transactions.dat in read binary mode
+2.8 If file exists, read transactionCount, transactions array, nextTransactionId
+2.9 Close file
+
+
+=>Step 3: Call mainMenu() function
+3.1 Declare integer variable 'choice'
+3.2 START DO-WHILE loop (choice != 10):
+    3.2.1 Clear screen
+    3.2.2 Display main menu:
+          "1. Add New Book"
+          "2. View All Books"
+          "3. Search Book"
+          "4. Add New Member"
+          "5. View All Members"
+          "6. Search Member"
+          "7. Issue Book"
+          "8. Return Book"
+          "9. View Issued Books"
+          "10. Exit"
+    3.2.3 Print "Enter your choice: "
+    3.2.4 Read integer and store in 'choice'
+    3.2.5 SWITCH based on choice:
+          CASE 1: Call addBook()
+          CASE 2: Call viewAllBooks()
+          CASE 3: Call searchBook()
+          CASE 4: Call addMember()
+          CASE 5: Call viewAllMembers()
+          CASE 6: Call searchMember()
+          CASE 7: Call issueBook()
+          CASE 8: Call returnBook()
+          CASE 9: Call viewIssuedBooks()
+          CASE 10: Print "Thank you for using Library Management System!"
+          DEFAULT: Print "Invalid choice!" and wait for key
+    3.2.6 Go back to step 3.2.1
+
+
+=>Step 4: addBook() FUNCTION
+4.1 Clear screen
+4.2 Print "ADD NEW BOOK" header
+4.3 IF bookCount >= 200 THEN:
+        Print "Cannot add more books! Limit reached."
+        Wait for key and RETURN
+4.4 Create newBook variable
+4.5 Set newBook.id = nextBookId, then nextBookId++
+4.6 Print "Book ID: " and newBook.id
+4.7 Ask and read Book Title, Author, Publisher
+4.8 Ask and read Quantity
+4.9 Set newBook.available = newBook.quantity
+4.10 Set newBook.issued = 0
+4.11 Add newBook to books array at bookCount position
+4.12 Increment bookCount by 1
+4.13 Call saveDataToFile()
+4.14 Print success message
+4.15 Wait for key and RETURN
+
+
+=>Step 5: viewAllBooks() FUNCTION
+5.1 Clear screen
+5.2 Print "ALL BOOKS" header
+5.3 IF bookCount == 0 THEN:
+        Print "No books found!"
+     ELSE:
+        Print table headers
+        FOR i = 0 to bookCount-1:
+            Print books[i].id, title, author, available, quantity
+        Print total books count
+5.4 Wait for key and RETURN
+
+
+=>Step 6: searchBook() FUNCTION
+6.1 Clear screen
+6.2 Print "SEARCH BOOK" header
+6.3 Ask choice: 1 for ID, 2 for Title
+6.4 IF choice == 1 THEN:
+        Ask for Book ID
+        FOR i = 0 to bookCount-1:
+            IF books[i].id == id THEN:
+                Print all book details
+                Set found=1 and break
+        IF not found THEN: Print "Book not found!"
+     ELSE IF choice == 2 THEN:
+        Ask for Book Title
+        Print table headers
+        FOR i = 0 to bookCount-1:
+            IF title found in books[i].title THEN:
+                Print book details
+                Set found=1
+        IF not found THEN: Print "No book found!"
+6.5 Wait for key and RETURN
+
+
+=>Step 7: addMember() FUNCTION
+7.1 Clear screen
+7.2 Print "ADD NEW MEMBER" header
+7.3 IF memberCount >= 300 THEN:
+        Print "Cannot add more members! Limit reached."
+        Wait for key and RETURN
+7.4 Create newMember variable
+7.5 Set newMember.id = nextMemberId, then nextMemberId++
+7.6 Print "Member ID: " and newMember.id
+7.7 Ask and read Member Name, Phone, Email, Address
+7.8 Set newMember.booksIssued = 0
+7.9 Add newMember to members array at memberCount position
+7.10 Increment memberCount by 1
+7.11 Call saveDataToFile()
+7.12 Print success message
+7.13 Wait for key and RETURN
+
+
+=>Step 8: viewAllMembers() FUNCTION
+8.1 Clear screen
+8.2 Print "ALL MEMBERS" header
+8.3 IF memberCount == 0 THEN:
+        Print "No members found!"
+     ELSE:
+        Print table headers
+        FOR i = 0 to memberCount-1:
+            Print members[i].id, name, phone, booksIssued
+        Print total members count
+8.4 Wait for key and RETURN
+
+
+=>Step 9: searchMember() FUNCTION
+9.1 Clear screen
+9.2 Print "SEARCH MEMBER" header
+9.3 Ask choice: 1 for ID, 2 for Name
+9.4 IF choice == 1 THEN:
+        Ask for Member ID
+        FOR i = 0 to memberCount-1:
+            IF members[i].id == id THEN:
+                Print all member details
+                Set found=1 and break
+        IF not found THEN: Print "Member not found!"
+     ELSE IF choice == 2 THEN:
+        Ask for Member Name
+        Print table headers
+        FOR i = 0 to memberCount-1:
+            IF name found in members[i].name THEN:
+                Print member details
+                Set found=1
+        IF not found THEN: Print "No member found!"
+9.5 Wait for key and RETURN
+
+
+=>Step 10: issueBook() FUNCTION
+10.1 Clear screen
+10.2 Print "ISSUE BOOK" header
+10.3 Ask for Book ID
+10.4 Search for book in books array
+10.5 IF book not found THEN: Print error, wait for key, RETURN
+10.6 IF book.available <= 0 THEN: Print "Book not available!", wait for key, RETURN
+10.7 Print Book Title and Available Copies
+10.8 Ask for Member ID
+10.9 Search for member in members array
+10.10 IF member not found THEN: Print error, wait for key, RETURN
+10.11 Print Member Name
+10.12 Create newTransaction variable
+10.13 Set transaction.id = nextTransactionId, then nextTransactionId++
+10.14 Set transaction.bookId, transaction.memberId
+10.15 Call getCurrentDate() to set issueDate
+10.16 Call calculateDueDate() to set dueDate (14 days later)
+10.17 Set transaction.status = 1 (Issued)
+10.18 Set transaction.fine = 0
+10.19 Update book: available--, issued++
+10.20 Update member: booksIssued++
+10.21 Add transaction to transactions array at transactionCount position
+10.22 Increment transactionCount by 1
+10.23 Call saveDataToFile()
+10.24 Print success message with Transaction ID, Issue Date, Due Date
+10.25 Wait for key and RETURN
+
+
+=>Step 11: returnBook() FUNCTION
+11.1 Clear screen
+11.2 Print "RETURN BOOK" header
+11.3 Ask for Transaction ID
+11.4 Search for active transaction (status==1) in transactions array
+11.5 IF transaction not found THEN: Print error, wait for key, RETURN
+11.6 Get bookId and memberId from transaction
+11.7 Find book and member indices
+11.8 Print Book Title, Member Name, Issue Date, Due Date
+11.9 Call getCurrentDate() to set returnDate
+11.10 Call calculateFine(dueDate, returnDate) to calculate fine
+11.11 IF fine > 0 THEN: Print "LATE RETURN! Fine: ₹[fine]"
+11.12 Set transaction.status = 2 (Returned)
+11.13 Update book: available++, issued--
+11.14 Update member: booksIssued--
+11.15 Call saveDataToFile()
+11.16 Print success message with Return Date and Fine amount
+11.17 Wait for key and RETURN
+
+
+=>Step 12: viewIssuedBooks() FUNCTION
+12.1 Clear screen
+12.2 Print "ISSUED BOOKS" header
+12.3 Set found = 0
+12.4 Print table headers
+12.5 FOR i = 0 to transactionCount-1:
+        IF transactions[i].status == 1 THEN:
+            Find book title from bookId
+            Find member name from memberId
+            Print Transaction ID, Book Title, Member Name, Due Date
+            Set found = 1
+12.6 IF found == 0 THEN: Print "No books currently issued!"
+12.7 Wait for key and RETURN
+
+
+=>Step 13: getCurrentDate() FUNCTION
+13.1 Call time(NULL) to get current time
+13.2 Call localtime() to convert to tm structure
+13.3 Set date->day = tm_mday
+13.4 Set date->month = tm_mon + 1
+13.5 Set date->year = tm_year + 1900
+13.6 RETURN
+
+
+=>Step 14: calculateDueDate() FUNCTION
+14.1 Set dueDate->day = issueDate.day + 14
+14.2 Set dueDate->month = issueDate.month
+14.3 Set dueDate->year = issueDate.year
+14.4 IF dueDate->day > 30 THEN:
+        dueDate->day = dueDate->day - 30
+        dueDate->month++
+14.5 IF dueDate->month > 12 THEN:
+        dueDate->month = 1
+        dueDate->year++
+14.6 RETURN
+
+
+=>Step 15: calculateFine() FUNCTION
+15.1 Convert dueDate to total days: dueDays = year*365 + month*30 + day
+15.2 Convert returnDate to total days: returnDays = year*365 + month*30 + day
+15.3 lateDays = returnDays - dueDays
+15.4 IF lateDays > 0 THEN:
+        fine = lateDays * 5
+     ELSE:
+        fine = 0
+15.5 RETURN fine
+
+
+=>Step 16: saveDataToFile() FUNCTION
+16.1 Open books.dat in write binary mode ("wb")
+16.2 IF file opened successfully THEN:
+        Write bookCount, books array, nextBookId
+        Close file
+16.3 Open members.dat in write binary mode ("wb")
+16.4 IF file opened successfully THEN:
+        Write memberCount, members array, nextMemberId
+        Close file
+16.5 Open transactions.dat in write binary mode ("wb")
+16.6 IF file opened successfully THEN:
+        Write transactionCount, transactions array, nextTransactionId
+        Close file
+16.7 RETURN
+
+
+=>Step 17: loadDataFromFile() FUNCTION
+17.1 Open books.dat in read binary mode ("rb")
+17.2 IF file exists THEN:
+        Read bookCount, books array, nextBookId
+        Close file
+17.3 Open members.dat in read binary mode ("rb")
+17.4 IF file exists THEN:
+        Read memberCount, members array, nextMemberId
+        Close file
+17.5 Open transactions.dat in read binary mode ("rb")
+17.6 IF file exists THEN:
+        Read transactionCount, transactions array, nextTransactionId
+        Close file
+17.7 RETURN
+
+
+=>Step 18: Program End
+18.1 Main function returns 0
+18.2 Program terminates
+
+================================================================================
+                               END ALGORITHM
+================================================================================

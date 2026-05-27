@@ -1,0 +1,326 @@
+================================================================================
+                   TASK MANAGEMENT SYSTEM ALGORITHM
+================================================================================
+
+=>Step 1: Program Start
+1.1 Include header files (stdio.h, time.h, stdlib.h, unistd.h, string.h)
+1.2 Define BAR_LENGTH = 50
+1.3 Define MAX_TASKS = 5
+1.4 Create User structure with members (id, username[50], password[50], taskCount)
+1.5 Create Task structure with members (id, progress, step, name[50])
+1.6 Declare global array users[100]
+1.7 Set global variable userCount = 0
+1.8 Set global variable currentUserId = -1
+1.9 Call loadUsers() function
+
+
+=>Step 2: Main Menu Loop
+2.1 START infinite WHILE loop (while(1)):
+    2.1.1 Call clear_screen()
+    2.1.2 Display welcome message and menu:
+           "1. Create New Account"
+           "2. Login"
+           "3. View All Users"
+           "4. Delete User"
+           "5. Exit"
+    2.1.3 Print "Enter choice: "
+    2.1.4 Read integer input and store in 'choice'
+    2.1.5 IF choice == 1 THEN:
+              Call addUser()
+          ELSE IF choice == 2 THEN:
+              Call loginUser()
+              IF currentUserId != -1 THEN:
+                  Call runTaskManager()
+              END IF
+          ELSE IF choice == 3 THEN:
+              Call viewUsers()
+          ELSE IF choice == 4 THEN:
+              Call deleteUser()
+          ELSE IF choice == 5 THEN:
+              Print "Thank you for using Task Manager!"
+              Call saveUsers()
+              Return 0 (exit program)
+          ELSE:
+              Print "Invalid choice!"
+              Wait for Enter key
+          END IF
+    2.1.6 Go back to step 2.1
+
+
+=>Step 3: loadUsers() FUNCTION
+3.1 Open file "users.dat" in read mode ("r")
+3.2 IF file pointer == NULL THEN:
+         Set userCount = 0
+         RETURN
+     END IF
+3.3 Read integer from file and store in userCount
+3.4 FOR i = 0 to userCount-1:
+         Read id, username, password, taskCount from file
+         Store in users[i]
+3.5 Close file
+3.6 RETURN
+
+
+=>Step 4: saveUsers() FUNCTION
+4.1 Open file "users.dat" in write mode ("w")
+4.2 IF file pointer == NULL THEN:
+         Print "Error saving users!"
+         RETURN
+     END IF
+4.3 Write userCount to file
+4.4 FOR i = 0 to userCount-1:
+         Write users[i].id, users[i].username, users[i].password, users[i].taskCount to file
+4.5 Close file
+4.6 RETURN
+
+
+=>Step 5: addUser() FUNCTION
+5.1 Call clear_screen()
+5.2 Display "========== CREATE NEW ACCOUNT =========="
+5.3 Declare variable newUser of type User
+5.4 Set newUser.id = userCount + 1
+5.5 Set newUser.taskCount = 0
+5.6 Print "Enter Username: "
+5.7 Read string and store in newUser.username
+5.8 Print "Enter Password: "
+5.9 Read string and store in newUser.password
+5.10 FOR i = 0 to userCount-1:
+          IF strcmp(users[i].username, newUser.username) == 0 THEN:
+               Print "Username already exists!"
+               Wait for Enter key
+               RETURN
+          END IF
+5.11 users[userCount] = newUser
+5.12 userCount = userCount + 1
+5.13 Call saveUsers()
+5.14 Print "Account created successfully!"
+5.15 Print "User ID: " and newUser.id
+5.16 Print "Username: " and newUser.username
+5.17 Wait for Enter key
+5.18 RETURN
+
+
+=>Step 6: viewUsers() FUNCTION
+6.1 Call clear_screen()
+6.2 Display "========== ALL REGISTERED USERS =========="
+6.3 IF userCount == 0 THEN:
+         Print "No users found!"
+     ELSE:
+         Print table header: "ID | Username | Tasks Done"
+         FOR i = 0 to userCount-1:
+              Print users[i].id, users[i].username, users[i].taskCount
+         Print "Total Users: " and userCount
+     END IF
+6.4 Wait for Enter key
+6.5 RETURN
+
+
+=>Step 7: deleteUser() FUNCTION
+7.1 Call clear_screen()
+7.2 Display "========== DELETE USER =========="
+7.3 IF userCount == 0 THEN:
+         Print "No users to delete!"
+         Wait for Enter key
+         RETURN
+     END IF
+7.4 Declare integer id, found = 0
+7.5 Print "Enter User ID to delete: "
+7.6 Read integer and store in id
+7.7 FOR i = 0 to userCount-1:
+         IF users[i].id == id THEN:
+              found = 1
+              FOR j = i to userCount-2:
+                   users[j] = users[j+1]
+              userCount = userCount - 1
+              Call saveUsers()
+              Print "User ID deleted successfully!"
+              BREAK
+         END IF
+7.8 IF found == 0 THEN:
+         Print "User ID not found!"
+     END IF
+7.9 Wait for Enter key
+7.10 RETURN
+
+
+=>Step 8: loginUser() FUNCTION
+8.1 Call clear_screen()
+8.2 Display "========== USER LOGIN =========="
+8.3 Declare username[50], password[50]
+8.4 Print "Username: "
+8.5 Read string and store in username
+8.6 Print "Password: "
+8.7 Read string and store in password
+8.8 FOR i = 0 to userCount-1:
+         IF strcmp(users[i].username, username) == 0 AND strcmp(users[i].password, password) == 0 THEN:
+              currentUserId = i
+              Print "Login successful!"
+              Print "Welcome back, " and users[i].username
+              Wait for Enter key
+              RETURN
+         END IF
+8.9 Print "Invalid username or password!"
+8.10 Wait for Enter key
+8.11 currentUserId = -1
+8.12 RETURN
+
+
+=>Step 9: runTaskManager() FUNCTION
+9.1 Declare Task tasks[MAX_TASKS]
+9.2 Call srand(time(NULL))
+9.3 Declare taskNames array = {"Download Files", "Process Data", "Upload Results", "Generate Report", "Send Notifications"}
+9.4 FOR i = 0 to MAX_TASKS-1:
+         tasks[i].id = i + 1
+         tasks[i].progress = 0
+         tasks[i].step = rand() % 5 + 1
+         Copy taskNames[i] to tasks[i].name
+9.5 Declare choice, tasks_incomplete
+9.6 START infinite WHILE loop:
+     9.6.1 Call clear_screen()
+     9.6.2 Display "TASK MANAGER - Welcome " and users[currentUserId].username
+     9.6.3 Display menu:
+            "1. Start All Tasks"
+            "2. View Task Progress"
+            "3. Add Custom Task"
+            "4. Remove Task"
+            "5. Change Task Speed"
+            "6. Logout"
+     9.6.4 Print "Choice: "
+     9.6.5 Read integer and store in choice
+     9.6.6 IF choice == 1 THEN:
+                tasks_incomplete = 1
+                WHILE tasks_incomplete == 1:
+                     tasks_incomplete = 0
+                     Call clear_screen()
+                     Print "***** TASKS IN PROGRESS *****"
+                     Print "User: " and users[currentUserId].username
+                     FOR i = 0 to MAX_TASKS-1:
+                          IF tasks[i].progress < 100 THEN:
+                               tasks[i].progress = tasks[i].progress + tasks[i].step
+                               IF tasks[i].progress > 100 THEN:
+                                    tasks[i].progress = 100
+                               END IF
+                               tasks_incomplete = 1
+                          END IF
+                          Print tasks[i].name
+                          Call print_bar(tasks[i])
+                     Call sleep(1)
+                Print "ALL TASKS COMPLETED!"
+                users[currentUserId].taskCount = users[currentUserId].taskCount + 1
+                Call saveUsers()
+                Wait for Enter key
+          ELSE IF choice == 2 THEN:
+                Call clear_screen()
+                Print "========== CURRENT TASK STATUS =========="
+                FOR i = 0 to MAX_TASKS-1:
+                     Print "Task " and tasks[i].id and ": " and tasks[i].name
+                     Print "Progress: "
+                     Call print_bar(tasks[i])
+                Wait for Enter key
+          ELSE IF choice == 3 THEN:
+                Call addCustomTask(tasks)
+          ELSE IF choice == 4 THEN:
+                Call removeTask(tasks)
+          ELSE IF choice == 5 THEN:
+                Declare taskId, newStep
+                Print "Enter Task ID (1-" and MAX_TASKS and "): "
+                Read integer and store in taskId
+                IF taskId >= 1 AND taskId <= MAX_TASKS THEN:
+                     Print "Enter new speed (1-10): "
+                     Read integer and store in newStep
+                     IF newStep >= 1 AND newStep <= 10 THEN:
+                          tasks[taskId-1].step = newStep
+                          Print "Task speed updated!"
+                     ELSE:
+                          Print "Speed must be between 1 and 10!"
+                     END IF
+                ELSE:
+                     Print "Invalid Task ID!"
+                END IF
+                Wait for Enter key
+          ELSE IF choice == 6 THEN:
+                Call logoutUser()
+                RETURN
+          ELSE:
+                Print "Invalid choice!"
+                Wait for Enter key
+          END IF
+     9.6.7 Go back to step 9.6
+
+
+=>Step 10: print_bar(Task task) FUNCTION
+10.1 bars_to_show = (task.progress * BAR_LENGTH) / 100
+10.2 Print "["
+10.3 FOR i = 0 to BAR_LENGTH-1:
+          IF i < bars_to_show THEN:
+               Print "="
+          ELSE:
+               Print "="
+          END IF
+10.4 Print "] " and task.progress and "%%"
+10.5 Print newline
+10.6 RETURN
+
+
+=>Step 11: addCustomTask(Task tasks[]) FUNCTION
+11.1 Declare static integer customTaskCount = 0
+11.2 IF customTaskCount >= 5 THEN:
+          Print "Maximum custom tasks reached!"
+          Wait for Enter key
+          RETURN
+11.3 newIndex = customTaskCount
+11.4 IF newIndex >= MAX_TASKS THEN:
+          Print "No space for more tasks!"
+          RETURN
+11.5 Print "========== ADD CUSTOM TASK =========="
+11.6 Print "Enter task name: "
+11.7 Read string with spaces and store in tasks[newIndex].name
+11.8 tasks[newIndex].id = newIndex + 1
+11.9 tasks[newIndex].progress = 0
+11.10 tasks[newIndex].step = rand() % 5 + 1
+11.11 customTaskCount = customTaskCount + 1
+11.12 Print "Custom task added successfully!"
+11.13 Wait for Enter key
+11.14 RETURN
+
+
+=>Step 12: removeTask(Task tasks[]) FUNCTION
+12.1 Declare integer taskId
+12.2 Print "========== REMOVE TASK =========="
+12.3 Print "Enter Task ID to remove (1-" and MAX_TASKS and "): "
+12.4 Read integer and store in taskId
+12.5 IF taskId >= 1 AND taskId <= MAX_TASKS THEN:
+          Copy "Empty Slot" to tasks[taskId-1].name
+          tasks[taskId-1].progress = 0
+          tasks[taskId-1].step = 0
+          Print "Task removed successfully!"
+     ELSE:
+          Print "Invalid Task ID!"
+     END IF
+12.6 Wait for Enter key
+12.7 RETURN
+
+
+=>Step 13: logoutUser() FUNCTION
+13.1 currentUserId = -1
+13.2 Print "Logged out successfully!"
+13.3 Wait for Enter key
+13.4 RETURN
+
+
+=>Step 14: clear_screen() FUNCTION
+14.1 IF Windows operating system THEN:
+          Call system("cls")
+     ELSE:
+          Call system("clear")
+     END IF
+14.2 RETURN
+
+
+=>Step 15: Program End
+15.1 Main function returns 0
+15.2 Stop program execution
+
+================================================================================
+                                  END ALGORITHM
+================================================================================

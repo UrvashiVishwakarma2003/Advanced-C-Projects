@@ -1,0 +1,166 @@
+================================================================================
+                            CALENDER ALGORITHM
+================================================================================
+=>Step 1: Initialize System
+1.1 Create 3D array events[12][31][200] for storing event descriptions
+1.2 Create 2D array eventCount[12][31] for tracking if event exists
+1.3 Set all eventCount values to 0
+1.4 Set all events strings to empty ("")
+
+
+=>Step 2: Main Menu Navigation
+2.1 Display welcome message
+2.2 Prompt user to enter year
+2.3 Store year in variable
+2.4 REPEAT forever:
+    2.4.1 Display menu options (1-8)
+    2.4.2 Get user choice
+    2.4.3 Call appropriate function based on choice
+    2.4.4 Wait for Enter key before redisplaying menu
+
+
+=>Step 3: Leap Year Check (isLeapYear)
+OUTPUT: 1 if leap year, 0 otherwise
+IF (year % 4 == 0 AND year % 100 != 0) OR (year % 400 == 0)
+    RETURN 1 (Leap Year)
+ELSE
+    RETURN 0 (Not Leap Year)
+
+
+=>Step 4: Get First Weekday (get_1st_weekDay)
+text
+INPUT: year
+OUTPUT: weekday (0=Sunday to 6=Saturday)
+
+FORMULA: 
+d = (year + (year-1)/4 - (year-1)/100 + (year-1)/400) % 7
+RETURN d
+
+
+=>Step 5: Display Full Year Calendar (displayFullYear)
+5.1 Initialize month names array
+5.2 Initialize days per month array [31,28,31,30,31,30,31,31,30,31,30,31]
+5.3 IF leap year THEN set February days = 29
+5.4 startingDay = get_1st_weekDay(year)
+5.5 Print header "CALENDAR year"
+5.6 FOR month = 0 to 11:
+    5.6.1 Print month name and year
+    5.6.2 Print "Sun Mon Tue Wed Thu Fri Sat"
+    5.6.3 Print spaces for startingDay
+    5.6.4 FOR day = 1 to daysInMonth[month]:
+        5.6.4.1 Print day number (width 5)
+        5.6.4.2 weekDay = weekDay + 1
+        5.6.4.3 IF weekDay > 6 THEN print newline and reset weekDay=0
+    5.6.5 startingDay = weekDay (for next month)
+
+
+=>Step 6: Display Specific Month (displaySpecificMonth)
+6.1 Set days per month array
+6.2 Adjust February if leap year
+6.3 Calculate startingDay for given month:
+    6.3.1 startingDay = get_1st_weekDay(year)
+    6.3.2 FOR i = 0 to month-1:
+        startingDay = (startingDay + daysInMonth[i]) % 7
+6.4 Print month header
+6.5 Print "Sun Mon Tue Wed Thu Fri Sat"
+6.6 Print spaces for startingDay
+6.7 FOR day = 1 to daysInMonth[month]:
+    6.7.1 Print day number
+    6.7.2 IF event exists THEN print "*" ELSE print " "
+    6.7.3 IF (startingDay + day) % 7 == 0 THEN print newline
+6.8 Print event list for the month:
+    FOR day = 1 to daysInMonth[month]:
+        IF eventCount[month][day-1] > 0 THEN
+            Print "Day day: event_description"
+
+
+=>Step 7: Add Event (addEvent)
+7.1 Validate date:
+    - Check if day is within month's days
+    - Adjust for leap year if needed
+7.2 IF invalid date THEN show error and RETURN
+7.3 Prompt: "Enter event description: "
+7.4 Read string using fgets (max 200 chars)
+7.5 Remove newline character from input
+7.6 Store description in events[month][day-1]
+7.7 Set eventCount[month][day-1] = 1
+7.8 Print success message
+
+
+=>Step 8: View Events (viewEvents)
+8.1 Validate date (same as Step 7.1)
+8.2 IF invalid THEN show error and RETURN
+8.3 Print header with date
+8.4 IF eventCount[month][day-1] > 0 THEN
+        Print event description from events[month][day-1]
+    ELSE
+        Print "No events scheduled"
+
+
+=>Step 9: View Holidays (viewHolidays)
+9.1 Print fixed holidays:
+    - January 1: New Year's Day
+    - January 26: Republic Day
+    - March: Holi (varies)
+    - August 15: Independence Day
+    - October 2: Gandhi Jayanti
+    - Oct/Nov: Diwali (varies)
+    - December 25: Christmas
+9.2 Calculate Easter date:
+    a = year % 19
+    b = year % 4
+    c = year % 7
+    d = (19*a + 24) % 30
+    e = (2*b + 4*c + 6*d + 5) % 7
+    easterDay = d + e + 22
+    
+    IF easterDay > 31 THEN
+        Print "Easter: April (easterDay-31)"
+    ELSE
+        Print "Easter: March easterDay"
+
+
+=>Step 10: Save Calendar to File (saveCalendarToFile)
+10.1 Create filename: "calendar_year.txt"
+10.2 Open file in write mode
+10.3 IF file open fails THEN show error and RETURN
+10.4 Write calendar to file (similar to displayFullYear logic)
+10.5 Close file
+10.6 Print success message with filename
+
+
+=>Step 11: Change Year (Menu Option 7)
+11.1 Prompt: "Enter new year: "
+11.2 Read new year value
+11.3 Update year variable
+11.4 Print confirmation message
+
+
+=>Step 12: Exit System (Menu Option 8)
+12.1 Print thank you message
+12.2 RETURN from navigationMenu()
+12.3 End program
+
+
+================================================================================
+                            END ALGORITHM
+================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

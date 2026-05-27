@@ -1,0 +1,223 @@
+================================================================================
+                    NUMBER GUESSING GAME ALGORITHM
+================================================================================
+
+=>Step 1: Program Start
+1.1 Include header files (stdio.h, stdlib.h, time.h, unistd.h)
+1.2 Declare global variables:
+    1.2.1 totalGames = 0
+    1.2.2 totalAttempts = 0
+    1.2.3 highScore = 999
+1.3 Declare function prototypes:
+    1.3.1 getDifficulty()
+    1.3.2 playGame()
+    1.3.3 showStatistics()
+    1.3.4 showRules()
+    1.3.5 saveHighScore()
+    1.3.6 loadHighScore()
+
+
+=>Step 2: Main Function
+2.1 Declare integer variables: choice, continuePlaying
+2.2 Call srand(time(NULL)) to initialize random number generator
+2.3 Call loadHighScore() and store returned value in highScore
+2.4 Print welcome message
+2.5 START DO-WHILE loop (continuePlaying == 1):
+    2.5.1 Display main menu:
+           "1. Play Game"
+           "2. View Rules"
+           "3. View Statistics"
+           "4. Exit"
+    2.5.2 Print "Enter your choice: "
+    2.5.3 Read integer input and store in 'choice'
+    2.5.4 SWITCH based on 'choice':
+          CASE 1: (Play Game)
+              2.5.4.1 Call getDifficulty() and store in 'difficulty'
+              2.5.4.2 Declare variables: range, maxAttempts
+              2.5.4.3 IF difficulty == 1 THEN:
+                         range = 30
+                         maxAttempts = 10
+                         Print "Easy Mode"
+                    ELSE IF difficulty == 2 THEN:
+                         range = 50
+                         maxAttempts = 7
+                         Print "Medium Mode"
+                    ELSE IF difficulty == 3 THEN:
+                         range = 100
+                         maxAttempts = 5
+                         Print "Hard Mode"
+                    ELSE:
+                         range = 50
+                         maxAttempts = 7
+                    END IF
+              2.5.4.4 Call playGame(range, maxAttempts) and store in 'attempts'
+              2.5.4.5 IF attempts > 0 THEN:
+                         totalGames = totalGames + 1
+                         totalAttempts = totalAttempts + attempts
+                         IF attempts < highScore THEN:
+                              highScore = attempts
+                              Call saveHighScore(highScore)
+                              Print "NEW HIGH SCORE!"
+                         END IF
+                    END IF   
+          CASE 2: (View Rules)
+              2.5.4.6 Call showRules()
+          CASE 3: (View Statistics)
+              2.5.4.7 Call showStatistics()       
+          CASE 4: (Exit)
+              2.5.4.8 Print "Thank you for playing!"
+              2.5.4.9 Print totalGames and highScore
+              2.5.4.10 Print "Goodbye!"
+          DEFAULT:
+              2.5.4.11 Print "Invalid choice!"
+    2.5.5 IF choice != 4 THEN:
+              Print "Play again? (1 for Yes / 0 for No): "
+              Read integer and store in 'continuePlaying'
+          ELSE:
+              continuePlaying = 0
+2.6 END DO-WHILE loop
+2.7 Return 0
+
+
+=>Step 3: getDifficulty() FUNCTION
+3.1 Declare integer variable 'diff'
+3.2 Display difficulty menu:
+     "1. Easy (1-30, 10 attempts)"
+     "2. Medium (1-50, 7 attempts)"
+     "3. Hard (1-100, 5 attempts)"
+3.3 Print "Choose difficulty (1-3): "
+3.4 Read integer input and store in 'diff'
+3.5 IF diff < 1 OR diff > 3 THEN:
+        Print "Invalid choice! Using Medium difficulty."
+        Set diff = 2
+        Call sleep(1)
+3.6 RETURN diff
+
+
+=>Step 4: playGame(range, maxAttempts) FUNCTION
+4.1 Declare variables:
+    4.1.1 randomNum (integer)
+    4.1.2 guess (integer)
+    4.1.3 attempts = 0 (integer)
+    4.1.4 score (integer)
+4.2 Generate random number: randomNum = rand() % range + 1
+4.3 Print "========== GAME STARTED =========="
+4.4 Print "Number between 1 and [range]"
+4.5 Print "You have [maxAttempts] attempts"
+4.6 Print "Type -1 to quit"
+4.7 START DO-WHILE loop (guess != randomNum):
+    4.7.1 Print "Enter your guess: "
+    4.7.2 Read integer input and store in 'guess'
+    4.7.3 IF guess == -1 THEN:
+              Print "You quit the game!"
+              Print "The number was: [randomNum]"
+              RETURN 0
+          END IF
+    4.7.4 attempts = attempts + 1
+    4.7.5 IF attempts % 3 == 0 AND attempts < maxAttempts THEN:
+              IF randomNum % 2 == 0 THEN:
+                   Print "[HINT] Number is even"
+              ELSE:
+                   Print "[HINT] Number is odd"
+              END IF
+          END IF
+    4.7.6 IF guess < randomNum THEN:
+              Print "[TOO LOW] Guess a larger number"
+              IF randomNum - guess > range/3 THEN:
+                   Print "(You're far off)"
+              END IF
+          ELSE IF guess > randomNum THEN:
+              Print "[TOO HIGH] Guess a smaller number"
+              IF guess - randomNum > range/3 THEN:
+                   Print "(You're far off)"
+              END IF
+          ELSE:
+              score = maxAttempts - attempts + 1
+              IF score < 1 THEN:
+                   score = 1
+              END IF
+              Print "CONGRATULATIONS! YOU GUESSED IT!"
+              Print "Number was: [randomNum]"
+              Print "Attempts taken: [attempts]"
+              Print "Your score: [score] out of [maxAttempts]"
+              RETURN attempts
+          END IF
+    4.7.7 Print "Remaining attempts: [maxAttempts - attempts]"
+    4.7.8 IF attempts >= maxAttempts AND guess != randomNum THEN:
+              Print "GAME OVER! You ran out of attempts!"
+              Print "The number was: [randomNum]"
+              RETURN 0
+          END IF
+    
+4.8 END DO-WHILE loop
+4.9 RETURN attempts
+
+
+=>Step 5: showRules() FUNCTION
+5.1 Print "========== GAME RULES =========="
+5.2 Print "1. Computer will think of a random number"
+5.3 Print "2. You have to guess that number"
+5.4 Print "3. After each guess, you'll get a hint"
+5.5 Print "4. You have limited attempts based on difficulty"
+5.6 Print "5. Every 3rd attempt, you get an extra hint"
+5.7 Print "6. Type -1 anytime to quit the game"
+5.8 Print "7. Lower attempts = Higher score!"
+5.9 Print "================================="
+5.10 RETURN
+
+
+=>Step 6: showStatistics() FUNCTION
+6.1 Declare float variable averageAttempts
+6.2 Print "========== GAME STATISTICS =========="
+6.3 IF totalGames == 0 THEN:
+        Print "No games played yet!"
+        Print "Play a game to see statistics!"
+     ELSE:
+        averageAttempts = (float)totalAttempts / totalGames
+        Print "Total games played: [totalGames]"
+        Print "Total attempts made: [totalAttempts]"
+        Print "Average attempts per game: [averageAttempts]"
+        Print "Best score: [highScore]"
+        
+        IF averageAttempts <= 3 THEN:
+             Print "Rating: EXCELLENT - 5 Stars"
+        ELSE IF averageAttempts <= 5 THEN:
+             Print "Rating: VERY GOOD - 4 Stars"
+        ELSE IF averageAttempts <= 7 THEN:
+             Print "Rating: GOOD - 3 Stars"
+        ELSE:
+             Print "Rating: FAIR - Keep practicing!"
+        END IF
+     END IF
+6.4 Print "====================================="
+6.5 RETURN
+
+
+=>Step 7: saveHighScore(score) FUNCTION
+7.1 Declare FILE pointer 'file'
+7.2 Open file "highscore.txt" in write mode ("w")
+7.3 IF file != NULL THEN:
+        Write score to file using fprintf()
+        Close file using fclose()
+     END IF
+7.4 RETURN
+
+
+=>Step 8: loadHighScore() FUNCTION
+8.1 Declare FILE pointer 'file'
+8.2 Declare integer score = 999
+8.3 Open file "highscore.txt" in read mode ("r")
+8.4 IF file != NULL THEN:
+        Read score from file using fscanf()
+        Close file using fclose()
+     END IF
+8.5 RETURN score
+
+
+=>Step 9: Program End
+9.1 Main function returns 0
+9.2 Stop program execution
+
+================================================================================
+                              END ALGORITHM
+================================================================================

@@ -1,0 +1,159 @@
+================================================================================
+                            CALCULATOR ALGORITHM
+================================================================================
+STEP 1: Initialize memory = 0, historyCount = 0, lastResult = 0
+STEP 2: Repeat steps 3 to 16 until user chooses exit
+STEP 3: Display calculator menu
+STEP 4: Read user choice (1 to 15)
+STEP 5: If choice = 15 then go to STEP 16
+STEP 6: If choice is invalid then show error and go to STEP 3
+STEP 7: Based on choice do following:
+
+        IF choice = 1 THEN
+            Read first number
+            Read second number
+            result = first + second
+            Display result
+            Add to history
+            lastResult = result
+
+        ELSE IF choice = 2 THEN
+            Read first number
+            Read second number
+            result = first - second
+            Display result
+            Add to history
+            lastResult = result
+
+        ELSE IF choice = 3 THEN
+            Read first number
+            Read second number
+            result = first × second
+            Display result
+            Add to history
+            lastResult = result
+
+        ELSE IF choice = 4 THEN
+            Read first number
+            Read second number
+            If second = 0 then
+                Show "Division by zero error"
+            Else
+                result = first ÷ second
+                Display result
+                Add to history
+                lastResult = result
+
+        ELSE IF choice = 5 THEN
+            Read first number
+            Read second number
+            If second = 0 then
+                Show "Modulus by zero error"
+            Else
+                result = first % second
+                Display result
+                Add to history
+                lastResult = result
+
+        ELSE IF choice = 6 THEN
+            Read base number
+            Read exponent
+            result = base ^ exponent
+            Display result
+            Add to history
+            lastResult = result
+
+        ELSE IF choice = 7 THEN
+            Read number
+            If number < 0 then
+                Show "Square root of negative not allowed"
+            Else
+                result = √number
+                Display result
+                Add to history
+                lastResult = result
+
+        ELSE IF choice = 8 THEN
+            Read number
+            Read percentage value
+            result = (number × percentage) ÷ 100
+            Display result
+            Add to history
+            lastResult = result
+
+        ELSE IF choice = 9 THEN
+            Read integer n
+            If n < 0 then
+                Show "Factorial not for negative numbers"
+            Else
+                Set fact = 1
+                For i = 2 to n
+                    fact = fact × i
+                result = fact
+                Display result
+                Add to history
+                lastResult = result
+
+        ELSE IF choice = 10 THEN
+            Display scientific menu (sin, cos, tan, ln, log, exp)
+            Read scientific choice
+            Read value
+            If sin then result = sin(value in degrees)
+            If cos then result = cos(value in degrees)
+            If tan then result = tan(value in degrees)
+            If ln then result = natural log of value
+            If log then result = log10 of value
+            If exp then result = e^value
+            Display result
+            Add to history
+            lastResult = result
+
+        ELSE IF choice = 11 THEN
+            If historyCount = 0 then
+                Show "No calculations yet"
+            Else
+                For i = 0 to historyCount-1
+                    Display history[i]
+
+        ELSE IF choice = 12 THEN
+            Display memory menu (M+, M-, MR, MC)
+            Read memory choice
+            If M+ then
+                Read value
+                memory = memory + value
+                Show memory
+            If M- then
+                Read value
+                memory = memory - value
+                Show memory
+            If MR then
+                Show memory value
+            If MC then
+                memory = 0
+                Show "Memory cleared"
+
+        ELSE IF choice = 13 THEN
+            If lastResult = 0 then
+                Show "No previous result"
+            Else
+                first = lastResult
+                Read second number
+                Show operation menu (+, -, ×, ÷)
+                Read operation
+                If + then result = first + second
+                If - then result = first - second
+                If × then result = first × second
+                If ÷ then result = first ÷ second
+                Display result
+                Add to history
+                lastResult = result
+
+        ELSE IF choice = 14 THEN
+            historyCount = 0
+            Show "History cleared"
+
+STEP 8: Go to STEP 3
+STEP 9: END
+================================================================================
+                            END ALGORITHM
+================================================================================

@@ -1,0 +1,152 @@
+================================================================================
+                            BANKING SYSTEM ALGORITHM
+================================================================================
+=> STEP 1: PROGRAM START 
+1. Begin program
+2. Load existing account data from "bank_data.txt" file
+3. Show main menu to user
+
+
+=>STEP 2: MAIN MENU
+Display:
+1. Create New Account
+2. Deposit Money
+3. Withdraw Money
+4. Check Balance
+5. View All Accounts
+6. Delete Account
+7. Exit
+Ask user to enter choice (1-7)
+
+
+=>STEP 3: CREATE NEW ACCOUNT
+Step 3.1: Clear screen
+Step 3.2: Check if totalAccounts < 100
+         If NO → show "Bank full" and go back to menu
+         If YES → continue
+Step 3.3: Generate new account number = 1001 + totalAccounts
+Step 3.4: Ask user to enter customer name
+Step 3.5: Ask user to enter initial deposit
+Step 3.6: Check if deposit >= 500
+         If NO → show "Minimum ₹500 required" and go back
+         If YES → continue
+Step 3.7: Store new account in accounts array
+Step 3.8: Increase totalAccounts by 1
+Step 3.9: Save all accounts to file
+Step 3.10: Show success message
+Step 3.11: Wait for user to press any key
+Step 3.12: Go back to main menu
+
+
+=>STEP 4: DEPOSIT MONEY
+Step 4.1: Clear screen
+Step 4.2: Ask user to enter account number
+Step 4.3: Search for account number in accounts array
+         If not found → show "Account not found" and go to step 4.10
+         If found → remember position (index)
+Step 4.4: Show account holder name and current balance
+Step 4.5: Ask user to enter amount to deposit
+Step 4.6: Check if amount > 0
+         If NO → show "Invalid amount" and go to step 4.10
+         If YES → continue
+Step 4.7: Add amount to current balance
+Step 4.8: Save all accounts to file
+Step 4.9: Show success message and new balance
+Step 4.10: Wait for user to press any key
+Step 4.11: Go back to main menu
+
+
+=>STEP 5: WITHDRAW MONEY
+Step 5.1: Clear screen
+Step 5.2: Ask user to enter account number
+Step 5.3: Search for account number in accounts array
+         If not found → show "Account not found" and go to step 5.11
+         If found → remember position (index)
+Step 5.4: Show account holder name and current balance
+Step 5.5: Ask user to enter amount to withdraw
+Step 5.6: Check if amount > 0
+         If NO → show "Invalid amount" and go to step 5.11
+         If YES → continue
+Step 5.7: Check if (current balance - amount) >= 500
+         If NO → show "Insufficient balance" and go to step 5.11
+         If YES → continue
+Step 5.8: Subtract amount from current balance
+Step 5.9: Save all accounts to file
+Step 5.10: Show success message and new balance
+Step 5.11: Wait for user to press any key
+Step 5.12: Go back to main menu
+
+
+=>STEP 6: CHECK BALANCE
+step 6.1: Clear screen
+Step 6.2: Ask user to enter account number
+Step 6.3: Search for account number in accounts array
+         If not found → show "Account not found" and go to step 6.6
+         If found → continue
+Step 6.4: Show:
+         - Account number
+         - Account holder name
+         - Current balance
+Step 6.5: If not found, show error message
+Step 6.6: Wait for user to press any key
+Step 6.7: Go back to main menu
+
+
+=>STEP 7: VIEW ALL ACCOUNTS
+Step 7.1: Clear screen
+Step 7.2: Check if totalAccounts == 0
+         If YES → show "No accounts found" and go to step 7.5
+         If NO → continue
+Step 7.3: Display table header:
+         "Acc No | Name | Balance"
+Step 7.4: Loop i = 0 to totalAccounts-1
+         For each account, display:
+         - Account number
+         - Customer name
+         - Balance
+Step 7.5: Show total number of accounts
+Step 7.6: Wait for user to press any key
+Step 7.7: Go back to main menu
+
+
+=>STEP 8: DELETE ACCOUNT
+Step 8.1: Clear screen
+Step 8.2: Ask user to enter account number to delete
+Step 8.3: Search for account number in accounts array
+         If not found → show "Account not found" and go to step 8.10
+         If found → continue
+Step 8.4: Show account details (name and balance)
+Step 8.5: Ask user "Are you sure? (Y/N)"
+Step 8.6: If user enters 'Y' or 'y':
+         Step 8.6.1: Loop i = index to totalAccounts-2
+                    Move accounts[i+1] to accounts[i]
+         Step 8.6.2: Decrease totalAccounts by 1
+         Step 8.6.3: Save all accounts to file
+         Step 8.6.4: Show "Account deleted successfully"
+Step 8.7: If user enters any other letter:
+         Show "Deletion cancelled"
+Step 8.8: Wait for user to press any key
+Step 8.9: Go back to main menu
+
+
+=>STEP 9: EXIT PROGRAM
+
+Step 9.1: Show "Thank you for using Bank System"
+Step 9.2: End program
+
+================================================================================
+                            END ALGORITHM
+================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
