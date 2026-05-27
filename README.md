@@ -4,11 +4,11 @@ This repository contains real-world console-based applications built using struc
 Created for learning, practice, academic projects, and interview preparation.
 
 
-📌 Featured Projects
-✨ Banking System
-✨ Calculator
-✨ Calendar
-✨ Contact Management System
+📌 Featured Projects\n
+✨ Banking System\n
+✨ Calculator\n
+✨ Calendar\n
+✨ Contact Management System\n
 ✨ Digital Clock
 ✨ Hospital Management System
 ✨ Library Management System
